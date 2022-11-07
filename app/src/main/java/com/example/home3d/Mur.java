@@ -4,7 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
+
 public class Mur extends AppCompatActivity {
+
+    protected ArrayList<Acces>acces;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
