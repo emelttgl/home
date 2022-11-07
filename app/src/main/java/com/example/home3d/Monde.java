@@ -6,6 +6,10 @@ import android.os.Bundle;
 
 public class Monde extends AppCompatActivity {
 
+    protected Batiment batiment;
+    protected Localistation localistation;
+    protected Boussole boussole;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
