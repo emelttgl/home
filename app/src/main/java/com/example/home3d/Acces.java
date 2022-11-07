@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 public class Acces extends AppCompatActivity {
 
+    protected Piece piece1, piece2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
