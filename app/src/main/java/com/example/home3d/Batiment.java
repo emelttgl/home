@@ -4,7 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
+
 public class Batiment extends AppCompatActivity {
+
+    protected ArrayList<Piece>pieces;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
