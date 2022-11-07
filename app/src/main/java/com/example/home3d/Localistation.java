@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 public class Localistation extends AppCompatActivity {
 
+    protected String orientation;
+    protected Piece piece;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
