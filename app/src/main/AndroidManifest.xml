@@ -13,7 +13,14 @@
         android:theme="@style/Theme.Home3d"
         tools:targetApi="31">
         <activity
-            android:name=".Boussole"
+            android:name=".VisualisationActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ConstructionActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
