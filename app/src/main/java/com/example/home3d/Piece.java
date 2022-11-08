@@ -4,13 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class Piece extends AppCompatActivity {
+public class Piece{
 
+    protected String nom;
     protected Mur mur1, mur2, mur3, mur4;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_piece);
+    public Piece(String s){
+        this.nom=s;
+    }
+
+    public String getNom (){
+        return nom;
     }
 }
