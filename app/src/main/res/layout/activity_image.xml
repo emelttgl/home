@@ -92,7 +92,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView8" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonVal"
         android:layout_width="144dp"
         android:layout_height="55dp"
         android:layout_marginStart="133dp"
