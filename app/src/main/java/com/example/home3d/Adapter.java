@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     protected Activity activity;
     protected ArrayList<Piece> pieces;
     protected int checkedPos=-1;
+
 
 
     public Adapter(Activity activity, ArrayList<Piece> pieces) {
@@ -45,11 +47,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         Piece piece = pieces.get(position);
         holder.textView1.setText(piece.getNom());
 
-        if(checkedPos==position){
-            holder.itemView.setBackgroundColor(Color.parseColor("#567845"));
-        }else{
-            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-        }
+
     }
 
     @Override
@@ -62,21 +60,34 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
     protected TextView textView1;
     protected LinearLayout linearLayout;
+    protected ImageButton supprimerPiece;
+
 
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
         this.textView1 = itemView.findViewById(R.id.textview1);
         this.linearLayout = itemView.findViewById(R.id.constraint);
+        this.supprimerPiece=itemView.findViewById(R.id.imageButton);
 
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setSelection(getAdapterPosition());
-                Intent intent=new Intent(activity,ImageActivity.class);
+                Intent intent=new Intent( activity,ImageActivity.class);
                 activity.startActivity(intent);
                 }
 
         });
+
+        supprimerPiece.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pieces.remove(getAdapterPosition());
+                notifyItemRemoved(getAdapterPosition());
+
+            }
+        });
+
 
     }
 
