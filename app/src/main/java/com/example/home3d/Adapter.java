@@ -2,23 +2,19 @@ package com.example.home3d;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
@@ -29,7 +25,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
 
     public Adapter(Activity activity, ArrayList<Piece> pieces) {
-        this.pieces=new ArrayList<>();
+
         this.activity = activity;
         this.pieces = pieces;
         notifyDataSetChanged();
@@ -93,9 +89,7 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        int position=getAdapterPosition();
-        Intent intent=new Intent(activity,ImageActivity.class);
-        //activity.startActivity(intent);
+
     }
 }
     public void setSelection(int adapterPosition){
