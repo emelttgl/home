@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_marginStart="1dp"
         android:layout_marginTop="200dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginBottom="60dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,6 +29,18 @@
         android:backgroundTint="#2196F3"
         android:onClick="editText"
         android:text="Ajouter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home3d" />
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="202dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="616dp"
+        android:backgroundTint="#2196F3"
+        android:onClick="editText"
+        android:text="Sauvegarder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home3d" />
 
