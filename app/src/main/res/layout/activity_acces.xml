@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relativeL"
+    tools:context=".outils.AccesOuestActivity">
+
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Definissez les accès vers une autre pièce par des zones rectangulaires."
+        android:textColor="#2196F3"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewOuest"
+        android:layout_width="333dp"
+        android:layout_height="524dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="96dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="335dp"
+        android:layout_height="519dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="96dp"
+        tools:layout_editor_absoluteX="38dp"
+        tools:layout_editor_absoluteY="39dp" />
+
+
+</RelativeLayout>
