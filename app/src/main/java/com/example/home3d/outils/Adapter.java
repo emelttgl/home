@@ -1,4 +1,4 @@
-package com.example.home3d;
+package com.example.home3d.outils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.home3d.R;
+import com.example.home3d.monde.Piece;
 
 import org.jetbrains.annotations.NotNull;
 
