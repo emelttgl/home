@@ -1,9 +1,11 @@
-package com.example.home3d;
+package com.example.home3d.outils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.Button;
+
+import com.example.home3d.R;
 
 public class VisualisationActivity extends AppCompatActivity {
 
