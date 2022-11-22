@@ -1,7 +1,11 @@
-package com.example.home3d;
+package com.example.home3d.monde;
 
 
-public class Piece{
+import com.example.home3d.monde.Mur;
+
+import java.io.Serializable;
+
+public class Piece implements Serializable {
 
     protected String nom;
     protected Mur mur1, mur2, mur3, mur4;
