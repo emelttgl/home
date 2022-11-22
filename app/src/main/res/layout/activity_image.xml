@@ -5,7 +5,7 @@
     android:background="#2196F3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ImageActivity">
+    tools:context=".outils.ImageActivity">
 
     <ImageView
         android:id="@+id/imageView6"
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
         android:layout_marginTop="264dp"
-        android:text="EST"
+        android:text="OUEST"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="264dp"
-        android:text="OUEST"
+        android:text="EST"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -130,9 +130,9 @@
         android:id="@+id/imageButtonOuest"
         android:layout_width="66dp"
         android:layout_height="37dp"
-        android:onClick="prendrePhotoO"
+        android:onClick="prendrePhotoE"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton7"
+        app:layout_constraintEnd_toStartOf="@+id/imageButtonOuest2"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
@@ -149,13 +149,13 @@
         android:id="@+id/imageButtonEst"
         android:layout_width="66dp"
         android:layout_height="37dp"
-        android:onClick="prendrePhotoE"
+        android:onClick="prendrePhotoO"
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintStart_toStartOf="@+id/imageView6"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/imageButtonNord2"
         android:layout_width="66dp"
         android:layout_height="37dp"
         android:onClick="modifierPhotoN"
@@ -165,17 +165,17 @@
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <ImageButton
-        android:id="@+id/imageButton5"
+        android:id="@+id/imageButtonEst2"
         android:layout_width="66dp"
         android:layout_height="37dp"
-        android:onClick="modifierPhotoE"
+        android:onClick="modifierPhotoO"
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
         app:layout_constraintStart_toEndOf="@+id/imageButtonEst"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <ImageButton
-        android:id="@+id/imageButton6"
+        android:id="@+id/imageButtonSud2"
         android:layout_width="66dp"
         android:layout_height="37dp"
         android:onClick="modifierPhotoS"
@@ -185,10 +185,10 @@
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <ImageButton
-        android:id="@+id/imageButton7"
+        android:id="@+id/imageButtonOuest2"
         android:layout_width="66dp"
         android:layout_height="37dp"
-        android:onClick="modifierPhotoO"
+        android:onClick="modifierPhotoE"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
         app:srcCompat="@android:drawable/ic_menu_edit" />
