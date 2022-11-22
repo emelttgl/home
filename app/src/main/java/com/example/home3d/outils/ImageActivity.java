@@ -1,4 +1,4 @@
-package com.example.home3d;
+package com.example.home3d.outils;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -7,7 +7,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -18,12 +17,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.home3d.R;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class ImageActivity extends AppCompatActivity {
 
@@ -33,7 +32,8 @@ public class ImageActivity extends AppCompatActivity {
     protected ActivityResultLauncher<Intent> launcherS;
     protected ImageView ouest,nord,sud,est;
     protected Button valider;
-    protected ImageButton Ouest,Nord,Sud,Est;
+    protected ImageButton Ouest,Nord,Sud,Est,modifO,modifS,modifN,modifE;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,11 @@ public class ImageActivity extends AppCompatActivity {
         Nord=findViewById(R.id.imageButtonNord);
         Sud=findViewById(R.id.imageButtonSud);
         Est=findViewById(R.id.imageButtonEst);
+
+        modifE=findViewById(R.id.imageButtonEst2);
+        modifS=findViewById(R.id.imageButtonSud2);
+        modifN=findViewById(R.id.imageButtonNord2);
+        modifO=findViewById(R.id.imageButtonOuest2);
 
         ouest = findViewById(R.id.imageView7);
         nord = findViewById(R.id.imageView);
@@ -62,108 +67,18 @@ public class ImageActivity extends AppCompatActivity {
             }
         });
 
-
-
-        sud.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                launcherS.launch(i);
-            }
-        });
-        launcherS = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        Bitmap bitmap = (Bitmap) result.getData().getExtras().get("data");
-                        Toast.makeText(ImageActivity.this,"taille"+bitmap.getHeight() ,Toast.LENGTH_SHORT).show();
-                        FileOutputStream fos = null;
-                        try {
-                            fos = openFileOutput("imageS.data", MODE_PRIVATE);
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-
-                        } catch (FileNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        try {
-                            fos.flush();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-
-                    }
-                }
-        );
-        est.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                launcherE.launch(i);
-            }
-        });
-        launcherE = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        Bitmap bitmap = (Bitmap) result.getData().getExtras().get("data");
-                        Toast.makeText(ImageActivity.this,"taille"+bitmap.getHeight() ,Toast.LENGTH_SHORT).show();
-                        FileOutputStream fos = null;
-                        try {
-                            fos = openFileOutput("imageE.data", MODE_PRIVATE);
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-
-                        } catch (FileNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        try {
-                            fos.flush();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-
-                    }
-                }
-        );
-        nord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                launcherN.launch(i);
-            }
-        });
-
-
-        launcherN = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        Bitmap bitmap = (Bitmap) result.getData().getExtras().get("data");
-                        Toast.makeText(ImageActivity.this,"taille"+bitmap.getHeight() ,Toast.LENGTH_SHORT).show();
-                        FileOutputStream fos = null;
-                        try {
-                            fos = openFileOutput("imageN.data", MODE_PRIVATE);
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-
-                        } catch (FileNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        try {
-                            fos.flush();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-
-                    }
-                }
-        );
         recupImageO();
         recupImageE();
         recupImageN();
         recupImageS();
         prendrePhotoO();
+        prendrePhotoS();
+        prendrePhotoE();
+        prendrePhotoN();
+        modifierPhotoN();
+        modifierPhotoE();
+        modifierPhotoS();
+        modifierPhotoO();
     }
 
     public void recupImageO() {
@@ -208,15 +123,106 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     public void prendrePhotoN(){
+        Nord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                launcherN.launch(i);
+            }
+        });
 
+        launcherN = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        Bitmap bitmap = (Bitmap) result.getData().getExtras().get("data");
+                        Toast.makeText(ImageActivity.this,"taille"+bitmap.getHeight() ,Toast.LENGTH_SHORT).show();
+                        FileOutputStream fos = null;
+                        try {
+                            fos = openFileOutput("imageN.data", MODE_PRIVATE);
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+
+                        } catch (FileNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            fos.flush();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                }
+        );
     }
 
     public void prendrePhotoE(){
+        Est.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                launcherE.launch(i);
+            }
+        });
+        launcherE = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        Bitmap bitmap = (Bitmap) result.getData().getExtras().get("data");
+                        Toast.makeText(ImageActivity.this,"taille"+bitmap.getHeight() ,Toast.LENGTH_SHORT).show();
+                        FileOutputStream fos = null;
+                        try {
+                            fos = openFileOutput("imageE.data", MODE_PRIVATE);
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 
+                        } catch (FileNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            fos.flush();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        recupImageE();
+                    }
+                }
+        );
     }
 
     public void prendrePhotoS(){
+        Sud.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                launcherS.launch(i);
+            }
+        });
+        launcherS = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        Bitmap bitmap = (Bitmap) result.getData().getExtras().get("data");
+                        Toast.makeText(ImageActivity.this,"taille"+bitmap.getHeight() ,Toast.LENGTH_SHORT).show();
+                        FileOutputStream fos = null;
+                        try {
+                            fos = openFileOutput("imageS.data", MODE_PRIVATE);
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 
+                        } catch (FileNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            fos.flush();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                }
+        );
     }
 
     public void prendrePhotoO(){
@@ -253,7 +259,39 @@ public class ImageActivity extends AppCompatActivity {
         );
     }
 
-    public void modifierPhoto(){
-
+    public void modifierPhotoO(){
+        modifO.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ImageActivity.this, AccesOuestActivity.class);
+                startActivity(intent);            }
+        });
+    }
+    public void modifierPhotoN(){
+        modifN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ImageActivity.this, AccessNorActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+    public void modifierPhotoS(){
+        modifS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ImageActivity.this, AccessSudActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+    public void modifierPhotoE(){
+        modifE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ImageActivity.this, AccesEstActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
