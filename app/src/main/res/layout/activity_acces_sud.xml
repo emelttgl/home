@@ -7,6 +7,14 @@
     android:id="@+id/relativeL"
     tools:context=".outils.AccessSudActivity">
 
+    <Button
+        android:id="@+id/valider4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="640dp"
+        android:text="Valider" />
+
     <ImageView
         android:id="@+id/imageViewSud"
         android:layout_width="330dp"

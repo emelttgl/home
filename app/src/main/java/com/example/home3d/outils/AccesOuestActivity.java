@@ -45,32 +45,29 @@ public class AccesOuestActivity extends AppCompatActivity {
 
 
 
-        ouest.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                relativeLayout.removeView(dr);
-                if (event.getPointerCount() == 2) {
-                    if (event.getActionIndex() == MotionEvent.ACTION_DOWN) {
-                        x0 = (int) event.getX(0);
-                        y0 = (int) event.getY(0);
+        ouest.setOnTouchListener((v, event) -> {
+            relativeLayout.removeView(dr);
+            if (event.getPointerCount() == 2) {
+                if (event.getActionIndex() == MotionEvent.ACTION_DOWN) {
+                    x0 = (int) event.getX(0);
+                    y0 = (int) event.getY(0);
 
-                        Log.i("SelectActivity", "x0 : " + x0);
-                        Log.i("SelectActivity", "y0 : " + y0);
-                    }
-                    x1 = (int) event.getX(1);
-                    y1 = (int) event.getY(1);
-                    Log.i("SelectActivity", "x1 : " + x1);
-                    Log.i("SelectActivity", "y1 : " + y1);
-
+                    Log.i("SelectActivity", "x0 : " + x0);
+                    Log.i("SelectActivity", "y0 : " + y0);
                 }
-                //Log.i("SelectActivity", "rect " + rect.toString());
-                Canvas canvas = new Canvas();
-                Paint paint = new Paint();
+                x1 = (int) event.getX(1);
+                y1 = (int) event.getY(1);
+                Log.i("SelectActivity", "x1 : " + x1);
+                Log.i("SelectActivity", "y1 : " + y1);
 
-                dr = new DrawRectangle(AccesOuestActivity.this, paint, canvas, x0,y0,x1,y1);
-                relativeLayout.addView(dr);
-                return true;
             }
+            //Log.i("SelectActivity", "rect " + rect.toString());
+            Canvas canvas = new Canvas();
+            Paint paint = new Paint();
+
+            dr = new DrawRectangle(AccesOuestActivity.this, paint, canvas, x0,y0,x1,y1);
+            relativeLayout.addView(dr);
+            return true;
         });
 
         recupImageO();

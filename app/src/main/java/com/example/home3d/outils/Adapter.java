@@ -23,12 +23,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     protected Activity activity;
     protected ArrayList<Piece> pieces;
-    protected int checkedPos=-1;
-
-
+    protected int checkedPos;
 
     public Adapter(Activity activity, ArrayList<Piece> pieces) {
-
         this.activity = activity;
         this.pieces = pieces;
         notifyDataSetChanged();
@@ -45,7 +42,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Piece piece = pieces.get(position);
         holder.textView1.setText(piece.getNom());
-
 
     }
 
@@ -64,29 +60,21 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
+        checkedPos=-1;
         this.textView1 = itemView.findViewById(R.id.textview1);
         this.linearLayout = itemView.findViewById(R.id.constraint);
         this.supprimerPiece=itemView.findViewById(R.id.imageButton);
 
-        linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setSelection(getAdapterPosition());
-                Intent intent=new Intent( activity,ImageActivity.class);
-                activity.startActivity(intent);
-                }
-
+        linearLayout.setOnClickListener(v -> {
+                    setSelection(getAdapterPosition());
+                    Intent intent = new Intent(activity, ImageActivity.class);
+                    activity.startActivity(intent);
         });
 
-        supprimerPiece.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pieces.remove(getAdapterPosition());
-                notifyItemRemoved(getAdapterPosition());
-
-            }
+        supprimerPiece.setOnClickListener(v -> {
+            pieces.remove(getAdapterPosition());
+            notifyItemRemoved(getAdapterPosition());
         });
-
 
     }
 
@@ -97,11 +85,12 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
 }
     public void setSelection(int adapterPosition){
         if(adapterPosition==RecyclerView.NO_POSITION)return;
-
         notifyItemChanged(checkedPos);
         checkedPos=adapterPosition;
         notifyItemChanged(checkedPos);
     }
+
+
 }
 
 

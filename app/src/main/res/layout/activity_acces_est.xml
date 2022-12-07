@@ -7,6 +7,14 @@
     android:id="@+id/relativeL"
     tools:context=".outils.AccesEstActivity">
 
+    <Button
+        android:id="@+id/valider2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="640dp"
+        android:text="Valider" />
+
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"

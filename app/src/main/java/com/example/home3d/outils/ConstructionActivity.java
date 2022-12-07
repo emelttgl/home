@@ -9,20 +9,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.home3d.R;
-import com.example.home3d.monde.Batiment;
 import com.example.home3d.monde.Piece;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class ConstructionActivity extends AppCompatActivity {
@@ -34,35 +34,32 @@ public class ConstructionActivity extends AppCompatActivity {
     protected Button ajouter;
     protected Button sauvegarder;
     protected ActivityResultLauncher<Intent>launcher;
-    protected SharedPreferences sharedPreferences;
-    protected Batiment batiment;
-
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_construction);
-        batiment = (Batiment) getIntent().getSerializableExtra(PIECES_KEY);
-        pieces = batiment.getPieces();
+        pieces = new ArrayList<Piece>();
+        //batiment = (Batiment) getIntent().getSerializableExtra(PIECES_KEY);
+        //pieces = (ArrayList<Piece>) getIntent().getSerializableExtra(PIECES_KEY);
+        //pieces = pieces.getPieces();
         ajouter = findViewById(R.id.ajouter);
         recyclerView = findViewById(R.id.recyclerview);
         sauvegarder = findViewById(R.id.save);
+
+        SharedPreferences sharedPreference = getSharedPreferences("DATA", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreference.getString("studata", null);
+        Type type = new TypeToken<ArrayList<Piece>>(){}.getType();
+        pieces=gson.fromJson(json,type);
+        if(pieces==null){
+            pieces=new ArrayList<>();
+        }
+
         buildRecyclerView();
 
-        sauvegarder.setOnClickListener(v -> {
-            batiment.setPieces(pieces);
-            Intent i = new Intent();
-            i.putExtra(BATIMENT_KEY,batiment);
-            setResult(Activity.RESULT_OK, i);
-            finish();
-        });
 
-        launcher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),result -> {
-            batiment=(Batiment) getIntent().getSerializableExtra(PIECES_KEY);
-        });
-        
         ajouter.setOnClickListener(v -> {
             AlertDialog.Builder dialog = new AlertDialog.Builder(ConstructionActivity.this);
             dialog.setTitle("Nom de la pièce");
@@ -74,22 +71,40 @@ public class ConstructionActivity extends AppCompatActivity {
             dialog.setPositiveButton("ok", (dialog1, which) -> {
                 String name = editText.getText().toString();
                 Toast.makeText(ConstructionActivity.this, "Nouvelle pièce ajoutée: " + name, Toast.LENGTH_LONG).show();
-                Piece piece = new Piece(name, false);
+                Piece piece = new Piece(name, null, null, null, null);
                 pieces.add(piece);
                 buildRecyclerView();
 
             });
 
-            dialog.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
+            dialog.setNegativeButton("cancel", (dialog2, which) -> dialog2.cancel());
             dialog.show();
 
         });
-    }
+        sauvegarder.setOnClickListener(v -> {
+            //pieces.setPieces(pieces);
+            /*Intent i = new Intent();
+            i.putExtra(BATIMENT_KEY,pieces);
+            setResult(Activity.RESULT_OK, i);
+            finish();*/
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("DATA",MODE_PRIVATE);
+            SharedPreferences.Editor editor=sharedPreferences.edit();
+
+            Gson gsonn = new Gson();
+           // pieces.add(new Piece());
+            String jsonn= gsonn.toJson(pieces);
+            editor.putString("studata",jsonn);
+            editor.apply();
+            finish();
+        });
+
+       // launcher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),result -> {
+          //  pieces= (ArrayList<Piece>) getIntent().getSerializableExtra(PIECES_KEY);
+       // });
+
+
+        }
+
 
     public void buildRecyclerView(){
         recyclerView.setLayoutManager(new LinearLayoutManager(ConstructionActivity.this));

@@ -26,9 +26,9 @@ public class DrawRectangle extends View {
 
     @Override
     protected void onDraw(Canvas canvas){
-
-        //paint.setAlpha(50);
+        paint.setAlpha(10);
         paint.setStyle(Paint.Style.STROKE);
+        //paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeWidth(20);
         paint.setColor(Color.BLACK);
         canvas.drawRect(x,y,x1,y1, paint);
