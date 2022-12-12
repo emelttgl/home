@@ -9,23 +9,23 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginBottom="60dp"
+        android:layout_width="365dp"
+        android:layout_height="379dp"
 
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="27dp"
+        android:layout_marginBottom="39dp"
+        app:layout_constraintBottom_toTopOf="@+id/save"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_piece"/>
+        app:layout_constraintTop_toBottomOf="@+id/ajouter"
+        tools:listitem="@layout/item_piece" />
 
     <Button
         android:id="@+id/ajouter"
         android:layout_width="202dp"
         android:layout_height="51dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="12dp"
         android:backgroundTint="#2196F3"
         android:onClick="editText"
         android:text="Ajouter"
@@ -36,8 +36,8 @@
         android:id="@+id/save"
         android:layout_width="202dp"
         android:layout_height="51dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="616dp"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="508dp"
         android:backgroundTint="#2196F3"
         android:onClick="editText"
         android:text="Sauvegarder"
@@ -48,7 +48,7 @@
         android:id="@+id/home3d"
         android:layout_width="128dp"
         android:layout_height="42dp"
-        android:layout_marginStart="140dp"
+        android:layout_marginStart="132dp"
         android:layout_marginTop="4dp"
         android:shadowColor="#2196F3"
         android:shadowRadius="50"
