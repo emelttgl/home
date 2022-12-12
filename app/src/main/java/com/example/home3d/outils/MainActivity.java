@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 
 import com.example.home3d.R;
@@ -43,9 +44,18 @@ public class MainActivity extends AppCompatActivity  {
 
         Construction.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ConstructionActivity.class);
+            startActivity(intent);
             //intent.putExtra(PIECES_KEY,pieces);
             //launcher.launch(intent);
-            startActivity(intent);
+
+        });
+
+        Visualisation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,VisualisationActivity.class);
+                startActivity(intent);
+            }
         });
        /* launcher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             assert result.getData() != null;
