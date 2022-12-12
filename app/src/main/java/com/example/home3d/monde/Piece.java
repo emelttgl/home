@@ -69,5 +69,4 @@ public class Piece implements Serializable {
         this.mur4 = p.mur4;
     }
 
-
 }
