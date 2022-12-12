@@ -11,12 +11,25 @@ import java.util.ArrayList;
 
 public class Mur implements Serializable {
 
-    protected ImageView image;
+    protected String image;
 
     protected ArrayList<Acces>acces;
 
-    public Mur(ImageView image, ArrayList<Acces> acces) {
+    public Mur(String image, ArrayList<Acces> acces) {
         this.image = image;
         this.acces = acces;
     }
+    public Mur(String image) {
+
+        this.image=image;
+        this.acces= new ArrayList<>();
+    }
+    public String getImage() {
+        return image;
+    }
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+
 }
