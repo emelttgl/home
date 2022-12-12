@@ -2,13 +2,16 @@ package com.example.home3d.outils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +29,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     protected int checkedPos;
 
     public Adapter(Activity activity, ArrayList<Piece> pieces) {
-        this.activity = activity;
+        //this.pieces=new ArrayList<>();
+        this.activity=activity;
         this.pieces = pieces;
         notifyDataSetChanged();
     }
@@ -41,7 +45,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Piece piece = pieces.get(position);
-        holder.textView1.setText(piece.getNom());
+       holder.textView1.setText(piece.getNom());
 
     }
 
@@ -56,7 +60,8 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
     protected TextView textView1;
     protected LinearLayout linearLayout;
     protected ImageButton supprimerPiece;
-
+    //protected ArrayList<Piece> pieces;
+    //final static public String Piece ="Piece";
 
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -64,18 +69,22 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         this.textView1 = itemView.findViewById(R.id.textview1);
         this.linearLayout = itemView.findViewById(R.id.constraint);
         this.supprimerPiece=itemView.findViewById(R.id.imageButton);
+        itemView.setOnClickListener(this);
 
         linearLayout.setOnClickListener(v -> {
-                    setSelection(getAdapterPosition());
-                    Intent intent = new Intent(activity, ImageActivity.class);
-                    activity.startActivity(intent);
+            setSelection(getAdapterPosition());
+            Intent intent = new Intent(activity,ImageActivity.class);
+            //intent.putExtra(Piece,pieces.get(getAdapterPosition()));
+            activity.startActivity(intent);
+            Toast.makeText(activity, "Piece : "+textView1.getText().toString(), Toast.LENGTH_LONG).show();
+            //Log.i("mess","position:"+pieces.get(getAdapterPosition()));
+
         });
 
         supprimerPiece.setOnClickListener(v -> {
             pieces.remove(getAdapterPosition());
             notifyItemRemoved(getAdapterPosition());
         });
-
     }
 
     @Override
