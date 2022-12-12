@@ -75,7 +75,7 @@ public class AccessNorActivity extends AppCompatActivity {
     public void recupImageN() {
         FileInputStream fis = null;
         try {
-            fis = openFileInput("imageN.data");
+            fis = openFileInput("image1.data");
             Bitmap bm = BitmapFactory.decodeStream(fis);
             this.nord.setImageBitmap(bm);
         } catch (FileNotFoundException e) {
