@@ -9,8 +9,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -20,6 +22,7 @@ import com.example.home3d.R;
 import com.example.home3d.monde.Mur;
 import com.example.home3d.monde.Piece;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -38,6 +41,8 @@ public class ImageActivity extends AppCompatActivity {
     protected Button valider;
     protected ImageButton Ouest,Nord,Sud,Est,modifO,modifS,modifN,modifE;
     protected Piece piece;
+    protected String Snord, Ssud, Sest, Souest;
+
 
 
 
@@ -59,13 +64,15 @@ public class ImageActivity extends AppCompatActivity {
         modifN=findViewById(R.id.imageButtonNord2);
         modifO=findViewById(R.id.imageButtonOuest2);
 
+
         ouest = findViewById(R.id.imageView7);
         nord = findViewById(R.id.imageView);
         est = findViewById(R.id.imageView6);
         sud = findViewById(R.id.imageView8);
-
-
-
+        Ssud = null;
+        Snord=null;
+        Sest=null;
+        Souest=null;
 
         recupImageO();
         recupImageE();
@@ -81,25 +88,26 @@ public class ImageActivity extends AppCompatActivity {
         modifierPhotoO();
 
         valider.setOnClickListener(v -> {
-            //pieces.setPieces(pieces);
+          /*  //pieces.setPieces(pieces);
             Intent i = new Intent();
             i.putExtra(BATIMENT_KEY,piece);
-            setResult(Activity.RESULT_OK, i);
+            setResult(Activity.RESULT_OK, i);*/
             finish();
         });
 
-        launcher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),result -> {
-            piece.setPiece(new Piece(piece.getNom(), new Mur(ouest, null),new Mur(nord, null),new Mur(sud, null),new Mur(est, null)));
+        /*launcher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),result -> {
+            piece.setPiece(new Piece(piece.getNom(), new Mur(Ssud, null),new Mur(Snord, null),new Mur(Sest, null),new Mur(Souest, null)));
             piece= (Piece) getIntent().getSerializableExtra(PIECES_KEY);
-        });
+        });*/
 
     }
 
     public void recupImageO() {
         FileInputStream fis = null;
         try {
-            fis = openFileInput("imageO.data");
+            fis = openFileInput("image3.data");
             Bitmap bm = BitmapFactory.decodeStream(fis);
+            Souest=bitmapToString(bm);
             this.ouest.setImageBitmap(bm);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -108,8 +116,10 @@ public class ImageActivity extends AppCompatActivity {
     public void recupImageS() {
         FileInputStream fis = null;
         try {
-            fis = openFileInput("imageS.data");
+            fis = openFileInput("image4.data");
             Bitmap bm = BitmapFactory.decodeStream(fis);
+            Ssud=bitmapToString(bm);
+            //textView.setText(bitmapToString(bitmap));
             this.sud.setImageBitmap(bm);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -118,8 +128,9 @@ public class ImageActivity extends AppCompatActivity {
     public void recupImageN() {
         FileInputStream fis = null;
         try {
-            fis = openFileInput("imageN.data");
+            fis = openFileInput("image1.data");
             Bitmap bm = BitmapFactory.decodeStream(fis);
+            Snord=bitmapToString(bm);
             this.nord.setImageBitmap(bm);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -128,8 +139,9 @@ public class ImageActivity extends AppCompatActivity {
     public void recupImageE() {
         FileInputStream fis = null;
         try {
-            fis = openFileInput("imageE.data");
+            fis = openFileInput("image2.data");
             Bitmap bm = BitmapFactory.decodeStream(fis);
+            Sest=bitmapToString(bm);
             this.est.setImageBitmap(bm);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -149,7 +161,7 @@ public class ImageActivity extends AppCompatActivity {
                     Toast.makeText(ImageActivity.this,"taille"+bitmap.getHeight() ,Toast.LENGTH_SHORT).show();
                     FileOutputStream fos = null;
                     try {
-                        fos = openFileOutput("imageN.data", MODE_PRIVATE);
+                        fos = openFileOutput("image1.data", MODE_PRIVATE);
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 
                     } catch (FileNotFoundException e) {
@@ -177,7 +189,7 @@ public class ImageActivity extends AppCompatActivity {
                     Toast.makeText(ImageActivity.this,"taille"+bitmap.getHeight() ,Toast.LENGTH_SHORT).show();
                     FileOutputStream fos = null;
                     try {
-                        fos = openFileOutput("imageE.data", MODE_PRIVATE);
+                        fos = openFileOutput("image2.data", MODE_PRIVATE);
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 
                     } catch (FileNotFoundException e) {
@@ -205,7 +217,7 @@ public class ImageActivity extends AppCompatActivity {
                     Toast.makeText(ImageActivity.this,"taille"+bitmap.getHeight() ,Toast.LENGTH_SHORT).show();
                     FileOutputStream fos = null;
                     try {
-                        fos = openFileOutput("imageS.data", MODE_PRIVATE);
+                        fos = openFileOutput("image4.data", MODE_PRIVATE);
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 
                     } catch (FileNotFoundException e) {
@@ -233,7 +245,7 @@ public class ImageActivity extends AppCompatActivity {
                     Toast.makeText(ImageActivity.this,"taille image : "+bitmap.getHeight() ,Toast.LENGTH_SHORT).show();
                     FileOutputStream fos = null;
                     try {
-                        fos = openFileOutput("imageO.data", MODE_PRIVATE);
+                        fos = openFileOutput("image3.data", MODE_PRIVATE);
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 
                     } catch (FileNotFoundException e) {
@@ -272,5 +284,13 @@ public class ImageActivity extends AppCompatActivity {
             Intent intent = new Intent(ImageActivity.this, AccesEstActivity.class);
             startActivity(intent);
         });
+    }
+
+    private String bitmapToString(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,50,stream);
+        byte[] bytes=stream.toByteArray();
+        return Base64.encodeToString(bytes,0);
+
     }
 }
