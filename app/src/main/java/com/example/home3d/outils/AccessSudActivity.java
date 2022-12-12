@@ -76,7 +76,7 @@ public class AccessSudActivity extends AppCompatActivity {
     public void recupImageS() {
         FileInputStream fis = null;
         try {
-            fis = openFileInput("imageS.data");
+            fis = openFileInput("image4.data");
             Bitmap bm = BitmapFactory.decodeStream(fis);
             this.sud.setImageBitmap(bm);
         } catch (FileNotFoundException e) {
