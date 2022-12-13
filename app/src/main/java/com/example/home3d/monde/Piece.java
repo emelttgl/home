@@ -1,6 +1,8 @@
 package com.example.home3d.monde;
 
 
+import com.example.home3d.outils.FabriqueId;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -9,12 +11,17 @@ public class Piece implements Serializable {
     protected String nom;
     protected Mur mur1, mur2, mur3, mur4;
     protected boolean isSelected;
+    protected int id;
 
     public Piece(String s, boolean isSelected){
         this.nom=s;
         this.isSelected=isSelected;
+        id= FabriqueId.getInstance().getId_piece();
     }
 
+    public int getId() {
+        return id;
+    }
 
     public Piece() {
         mur1 = null;
@@ -22,6 +29,7 @@ public class Piece implements Serializable {
         mur3 = null;
         mur4 = null;
         nom= "";
+        id= FabriqueId.getInstance().getId_piece();
     }
 
     public void setMur1(Mur mur1) {
@@ -46,6 +54,7 @@ public class Piece implements Serializable {
         this.mur2 = mur2;
         this.mur3 = mur3;
         this.mur4 = mur4;
+        id= FabriqueId.getInstance().getId_piece();
     }
 
     public String getNom (){
@@ -69,4 +78,19 @@ public class Piece implements Serializable {
         this.mur4 = p.mur4;
     }
 
+    public Mur getMur1() {
+        return mur1;
+    }
+
+    public Mur getMur2() {
+        return mur2;
+    }
+
+    public Mur getMur3() {
+        return mur3;
+    }
+
+    public Mur getMur4() {
+        return mur4;
+    }
 }

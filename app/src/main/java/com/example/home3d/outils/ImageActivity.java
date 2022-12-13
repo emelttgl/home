@@ -7,12 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,12 +22,15 @@ import android.widget.Toast;
 import com.example.home3d.R;
 import com.example.home3d.monde.Mur;
 import com.example.home3d.monde.Piece;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class ImageActivity extends AppCompatActivity {
@@ -41,10 +45,11 @@ public class ImageActivity extends AppCompatActivity {
     protected Button valider;
     protected ImageButton Ouest,Nord,Sud,Est,modifO,modifS,modifN,modifE;
     protected Piece piece;
+    protected Mur mur1,mur2,mur3,mur4;
     protected String Snord, Ssud, Sest, Souest;
-
-
-
+    protected ArrayList<Piece> pieces;
+    protected final String Piece ="Piece";
+    protected ArrayList<Mur>mur;
 
 
     @Override
@@ -64,15 +69,31 @@ public class ImageActivity extends AppCompatActivity {
         modifN=findViewById(R.id.imageButtonNord2);
         modifO=findViewById(R.id.imageButtonOuest2);
 
-
-        ouest = findViewById(R.id.imageView7);
-        nord = findViewById(R.id.imageView);
-        est = findViewById(R.id.imageView6);
-        sud = findViewById(R.id.imageView8);
+        mur = new ArrayList<>();
+        ouest = findViewById(R.id.imageViewOuest);
+        nord = findViewById(R.id.imageViewNord);
+        est = findViewById(R.id.imageViewEst);
+        sud = findViewById(R.id.imageViewSud);
         Ssud = null;
         Snord=null;
         Sest=null;
         Souest=null;
+        pieces = new ArrayList<>();
+        mur1=new Mur("");
+        mur2=new Mur("");
+        mur3=new Mur("");
+        mur4=new Mur("");
+
+        SharedPreferences sharedPreference = getSharedPreferences("Data", MODE_PRIVATE);
+        Gson gsonn = new Gson();
+        String jsonn = sharedPreference.getString("datas", null);
+        Type type = new TypeToken<ArrayList<Mur>>(){}.getType();
+        mur=gsonn.fromJson(jsonn,type);
+
+
+        if(mur==null){
+            mur=new ArrayList<>();
+        }
 
         recupImageO();
         recupImageE();
@@ -87,25 +108,64 @@ public class ImageActivity extends AppCompatActivity {
         modifierPhotoS();
         modifierPhotoO();
 
+        piece= (com.example.home3d.monde.Piece) getIntent().getSerializableExtra(Piece);
+        if(piece!=null){
+
+            if(piece.getMur1()!=null) {
+                mur1 = piece.getMur1();
+                this.nord.setImageBitmap(stringToBitmap(mur1.getImage()));
+            }
+            if(piece.getMur2()!=null) {
+                mur2 = piece.getMur2();
+                this.est.setImageBitmap(stringToBitmap(mur2.getImage()));
+            }
+            if(piece.getMur3()!=null) {
+                mur3 = piece.getMur3();
+                this.ouest.setImageBitmap(stringToBitmap(mur3.getImage()));
+            }
+            if(piece.getMur4()!=null) {
+                mur4 = piece.getMur4();
+                this.sud.setImageBitmap(stringToBitmap(mur4.getImage()));
+            }
+            pieces.remove(piece);
+        }
+
         valider.setOnClickListener(v -> {
-          /*  //pieces.setPieces(pieces);
+
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Data",MODE_PRIVATE);
+            SharedPreferences.Editor editor=sharedPreferences.edit();
+
+            Gson gson = new Gson();
+            // pieces.add(new Piece());
+            String json= gson.toJson(mur);
+            editor.putString("datas",json);
+            editor.apply();
+            Toast.makeText(this, "Images enregistrées", Toast.LENGTH_SHORT).show();
+
+               // System.out.println("----------sud-------->>> "+Ssud);
+              //  System.out.println("-----------est------->>> "+Sest);
+               // System.out.println("----------nord-------->>> "+Snord);
+              //  System.out.println("---------ouest--------->>> "+Souest);
+
+            pieces.add(piece);
             Intent i = new Intent();
             i.putExtra(BATIMENT_KEY,piece);
-            setResult(Activity.RESULT_OK, i);*/
+            setResult(Activity.RESULT_OK, i);
             finish();
+            //finish();
         });
 
-        /*launcher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),result -> {
+        launcher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),result -> {
             piece.setPiece(new Piece(piece.getNom(), new Mur(Ssud, null),new Mur(Snord, null),new Mur(Sest, null),new Mur(Souest, null)));
             piece= (Piece) getIntent().getSerializableExtra(PIECES_KEY);
-        });*/
+        });
 
     }
 
     public void recupImageO() {
         FileInputStream fis = null;
         try {
-            fis = openFileInput("image3.data");
+            fis = openFileInput("image2"+".data");
             Bitmap bm = BitmapFactory.decodeStream(fis);
             Souest=bitmapToString(bm);
             this.ouest.setImageBitmap(bm);
@@ -116,7 +176,7 @@ public class ImageActivity extends AppCompatActivity {
     public void recupImageS() {
         FileInputStream fis = null;
         try {
-            fis = openFileInput("image4.data");
+            fis = openFileInput("image3"+".data");
             Bitmap bm = BitmapFactory.decodeStream(fis);
             Ssud=bitmapToString(bm);
             //textView.setText(bitmapToString(bitmap));
@@ -128,7 +188,7 @@ public class ImageActivity extends AppCompatActivity {
     public void recupImageN() {
         FileInputStream fis = null;
         try {
-            fis = openFileInput("image1.data");
+            fis = openFileInput("image0.data");
             Bitmap bm = BitmapFactory.decodeStream(fis);
             Snord=bitmapToString(bm);
             this.nord.setImageBitmap(bm);
@@ -139,7 +199,7 @@ public class ImageActivity extends AppCompatActivity {
     public void recupImageE() {
         FileInputStream fis = null;
         try {
-            fis = openFileInput("image2.data");
+            fis = openFileInput("image1.data");
             Bitmap bm = BitmapFactory.decodeStream(fis);
             Sest=bitmapToString(bm);
             this.est.setImageBitmap(bm);
@@ -161,7 +221,7 @@ public class ImageActivity extends AppCompatActivity {
                     Toast.makeText(ImageActivity.this,"taille"+bitmap.getHeight() ,Toast.LENGTH_SHORT).show();
                     FileOutputStream fos = null;
                     try {
-                        fos = openFileOutput("image1.data", MODE_PRIVATE);
+                        fos = openFileOutput("image0.data", MODE_PRIVATE);
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 
                     } catch (FileNotFoundException e) {
@@ -189,7 +249,7 @@ public class ImageActivity extends AppCompatActivity {
                     Toast.makeText(ImageActivity.this,"taille"+bitmap.getHeight() ,Toast.LENGTH_SHORT).show();
                     FileOutputStream fos = null;
                     try {
-                        fos = openFileOutput("image2.data", MODE_PRIVATE);
+                        fos = openFileOutput("image1.data", MODE_PRIVATE);
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 
                     } catch (FileNotFoundException e) {
@@ -217,7 +277,7 @@ public class ImageActivity extends AppCompatActivity {
                     Toast.makeText(ImageActivity.this,"taille"+bitmap.getHeight() ,Toast.LENGTH_SHORT).show();
                     FileOutputStream fos = null;
                     try {
-                        fos = openFileOutput("image4.data", MODE_PRIVATE);
+                        fos = openFileOutput("image3.data", MODE_PRIVATE);
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 
                     } catch (FileNotFoundException e) {
@@ -245,7 +305,7 @@ public class ImageActivity extends AppCompatActivity {
                     Toast.makeText(ImageActivity.this,"taille image : "+bitmap.getHeight() ,Toast.LENGTH_SHORT).show();
                     FileOutputStream fos = null;
                     try {
-                        fos = openFileOutput("image3.data", MODE_PRIVATE);
+                        fos = openFileOutput("image2.data", MODE_PRIVATE);
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 
                     } catch (FileNotFoundException e) {
@@ -292,5 +352,15 @@ public class ImageActivity extends AppCompatActivity {
         byte[] bytes=stream.toByteArray();
         return Base64.encodeToString(bytes,0);
 
+    }
+    private Bitmap stringToBitmap(String picture) {
+        try {
+            byte[] encodeByte = Base64.decode(picture, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 }

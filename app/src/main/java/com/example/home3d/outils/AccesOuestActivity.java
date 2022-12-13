@@ -102,10 +102,9 @@ public class AccesOuestActivity extends AppCompatActivity {
             Log.i("message",bitmapToString(bitmap));
 
             Intent intent = new Intent(this, VisualisationActivity.class);
-            intent.putExtra(BATIMENT_KEY,Souest);
+            intent.putExtra(Message,Souest);
 
-            //startActivity(intent);
-            //finish();
+            finish();
         });
 
             recupImageO();
@@ -123,7 +122,7 @@ public class AccesOuestActivity extends AppCompatActivity {
     public void recupImageO() {
         FileInputStream fis = null;
         try {
-            fis = openFileInput("image3.data");
+            fis = openFileInput("image2.data");
             Bitmap bm = BitmapFactory.decodeStream(fis);
             this.ouest.setImageBitmap(bm);
         } catch (FileNotFoundException e) {

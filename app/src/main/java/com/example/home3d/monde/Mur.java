@@ -20,7 +20,6 @@ public class Mur implements Serializable {
         this.acces = acces;
     }
     public Mur(String image) {
-
         this.image=image;
         this.acces= new ArrayList<>();
     }

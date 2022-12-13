@@ -54,8 +54,10 @@ public class ConstructionActivity extends AppCompatActivity {
         ajouter = findViewById(R.id.ajouter);
         recyclerView = findViewById(R.id.recyclerview);
         sauvegarder = findViewById(R.id.save);
-
-
+        Piece piece= new Piece();
+        piece= (com.example.home3d.monde.Piece) getIntent().getSerializableExtra(BATIMENT_KEY);
+        if(piece!=null)
+             pieces.set(adapter.pieceselected,piece);
         SharedPreferences sharedPreference = getSharedPreferences("DATA", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreference.getString("studata", null);
@@ -79,11 +81,11 @@ public class ConstructionActivity extends AppCompatActivity {
             dialog.setPositiveButton("ok", (dialog1, which) -> {
                 String name = editText.getText().toString();
                 Toast.makeText(ConstructionActivity.this, "Nouvelle pièce ajoutée: " + name, Toast.LENGTH_LONG).show();
-               // int nextid=adapter.getItemCount();
-               // getIntent().getSerializableExtra(Piece);
-               // adapter.setSelection(nextid++);
-                Piece piece = new Piece(name, null, null, null, null);
-                pieces.add(piece);
+               //int nextid=adapter.getItemCount();
+
+               //adapter.setSelection(nextid++);
+                Piece piece2 = new Piece(name, null, null, null, null);
+                pieces.add(piece2);
                 buildRecyclerView();
 
             });
@@ -94,12 +96,17 @@ public class ConstructionActivity extends AppCompatActivity {
         });
         sauvegarder.setOnClickListener(v -> {
             //pieces.setPieces(pieces);
-            /*Intent i = new Intent();
-            i.putExtra(BATIMENT_KEY,pieces);
-            setResult(Activity.RESULT_OK, i);
-            finish();*/
+
+            //finish();*/
             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("DATA",MODE_PRIVATE);
             SharedPreferences.Editor editor=sharedPreferences.edit();
+
+            for (int i = 0; i < pieces.size(); i++) {
+                System.out.println("------------------>>> "+pieces.get(i).getMur1());
+                System.out.println("------------------>>> "+pieces.get(i).getMur2());
+                System.out.println("------------------>>> "+pieces.get(i).getMur3());
+                System.out.println("------------------>>> "+pieces.get(i).getMur4());
+            }
 
             Gson gsonn = new Gson();
            // pieces.add(new Piece());
@@ -107,12 +114,15 @@ public class ConstructionActivity extends AppCompatActivity {
             editor.putString("studata",jsonn);
             editor.apply();
             Toast.makeText(this, "Pieces enregistrées", Toast.LENGTH_SHORT).show();
-
             finish();
         });
 
-       /* launcher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),result -> {
-            pieces= (ArrayList<Piece>) getIntent().getSerializableExtra(Piece);
+       /*Intent i = new Intent();
+        i.putExtra(BATIMENT_KEY,pieces);
+        setResult(Activity.RESULT_OK, i);*/
+       /*launcher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),result -> {
+           Piece piece= new Piece() ;
+           piece= (com.example.home3d.monde.Piece) getIntent().getSerializableExtra(BATIMENT_KEY);
         });*/
         }
 

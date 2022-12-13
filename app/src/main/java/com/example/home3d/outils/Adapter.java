@@ -27,6 +27,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     protected Activity activity;
     protected ArrayList<Piece> pieces;
     protected int checkedPos;
+    protected final String Piece ="Piece";
+    public int pieceselected;
 
     public Adapter(Activity activity, ArrayList<Piece> pieces) {
         //this.pieces=new ArrayList<>();
@@ -60,6 +62,7 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
     protected TextView textView1;
     protected LinearLayout linearLayout;
     protected ImageButton supprimerPiece;
+
     //protected ArrayList<Piece> pieces;
     //final static public String Piece ="Piece";
 
@@ -72,9 +75,13 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         itemView.setOnClickListener(this);
 
         linearLayout.setOnClickListener(v -> {
-            setSelection(getAdapterPosition());
+
+            Log.i("MAIN", "position "+getAdapterPosition());
+
+            //setSelection(getAdapterPosition());
+            pieceselected=getAdapterPosition();
             Intent intent = new Intent(activity,ImageActivity.class);
-            //intent.putExtra(Piece,pieces.get(getAdapterPosition()));
+            intent.putExtra(Piece,pieces.get(getAdapterPosition()));
             activity.startActivity(intent);
             Toast.makeText(activity, "Piece : "+textView1.getText().toString(), Toast.LENGTH_LONG).show();
             //Log.i("mess","position:"+pieces.get(getAdapterPosition()));

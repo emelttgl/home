@@ -1,29 +1,34 @@
 package com.example.home3d.outils;
 
-import static com.example.home3d.outils.ConstructionActivity.BATIMENT_KEY;
-import static com.example.home3d.outils.ConstructionActivity.PIECES_KEY;
 import static com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 
 import android.Manifest;
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+
 import android.view.View;
-import android.widget.Button;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,8 +41,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -47,24 +50,100 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class VisualisationActivity extends AppCompatActivity {
+public class VisualisationActivity extends AppCompatActivity implements SensorEventListener{
 
     protected ImageButton bouttonGauche, bouttonDroit;
     protected ImageView image;
     protected TextView temp;
     protected double longitude, latitude;
-    protected ArrayList<Piece> pieces;
-    protected ActivityResultLauncher<Intent> launcher;
+    protected float[] gravity=new float[3];
+    protected float[] magneto=new float[3];
+    protected float[] orientation=new float[3];
+    protected float[] matrix=new float[9];
+    protected boolean acc=false;
+    protected boolean magn=false;
+    protected long time = 0;
+    protected float degre = 0f;
+    protected SensorManager sensorManager,mSensorManager2;
+    protected Sensor accelerometre,magnetometre,mAccelerometer2;
+    protected ImageView imageView;
+    private double accelerationCurrentValue;
+    private double accelerationPreviousValue;
+    private float[] floatGravity = new float[3];
+    private float[] floatMagnetic = new float[3];
+    private float[] floatOrientation = new float[3];
+    private float[] floatRotationMatrix = new float[9];
+    private int pointsPlotted=5;
+
+
+    private SensorEventListener sensorEventListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent sensorEvent) {
+
+            float x = sensorEvent.values[0];
+            float y = sensorEvent.values[1];
+            float z = sensorEvent.values[2];
+
+            accelerationCurrentValue = Math.sqrt(x * x + y * y + z * z);
+            double changeInAccelleration = Math.abs(accelerationCurrentValue - accelerationPreviousValue);
+            accelerationPreviousValue = accelerationCurrentValue;
+
+            floatGravity = sensorEvent.values;
+            mSensorManager2.getRotationMatrix(floatRotationMatrix, null, floatGravity, floatMagnetic);
+            mSensorManager2.getOrientation(floatRotationMatrix, floatOrientation);
+            imageView.setRotation((float) (-floatOrientation[0] * 180 / 3.14159));
+            //update graph
+            pointsPlotted++;
+            if (pointsPlotted > 1000) {
+                pointsPlotted = 1;
+            }
+
+            double rotation = -floatOrientation[0] * 180 / 3.14159;
+        }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+            }
+        };
+        SensorEventListener sensorEventListenerMagneticField = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                floatMagnetic = sensorEvent.values;
+                mSensorManager2.getRotationMatrix(floatRotationMatrix,null,floatGravity,floatMagnetic);
+                mSensorManager2.getOrientation(floatRotationMatrix,floatOrientation);
+                imageView.setRotation((float) (-floatOrientation[0]*180/3.14159));
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+
+            }
+        };
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         setContentView(R.layout.activity_visualisation);
         bouttonGauche = findViewById(R.id.bouttonG);
         bouttonDroit = findViewById(R.id.bouttonD);
         image = findViewById(R.id.imageView4);
         temp = findViewById(R.id.textView11);
+        imageView=findViewById(R.id.imageBoussole);
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accelerometre = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        magnetometre=sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
+
+        mSensorManager2 =(SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer2 = mSensorManager2.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        magnetometre=mSensorManager2.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        mSensorManager2.registerListener(sensorEventListener,mAccelerometer2,mSensorManager2.SENSOR_DELAY_NORMAL);
+        mSensorManager2.registerListener(sensorEventListenerMagneticField,magnetometre,mSensorManager2.SENSOR_DELAY_NORMAL);
+
 
        /* pieces = new ArrayList<Piece>();
         launcher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -139,10 +218,11 @@ public class VisualisationActivity extends AppCompatActivity {
         temp.setOnClickListener(view -> service.execute(runnable));
 
 
-        String msg = getIntent().getStringExtra(AccesOuestActivity.Message);
-        image.setImageBitmap(stringToBitmap(msg));
+        String msg = (String) getIntent().getSerializableExtra(AccesOuestActivity.Message);
+        //Log.i("MESSAGE", msg.toString());
+     //   image.setImageBitmap(stringToBitmap(msg));
 
-        // recupImageN();
+         recupImageN();
     }
 
 
@@ -178,7 +258,22 @@ public class VisualisationActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
 }
+
+
+
+
+
 
 
 

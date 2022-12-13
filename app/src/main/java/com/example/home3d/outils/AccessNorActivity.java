@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -29,6 +30,7 @@ public class AccessNorActivity extends AppCompatActivity {
     protected DrawRectangle dr;
     protected int x0, y0, x1, y1;
     protected RelativeLayout relativeLayout;
+    protected Button valider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class AccessNorActivity extends AppCompatActivity {
         nord=findViewById(R.id.imageViewNord);
         surfaceView = findViewById(R.id.surfaceViewNord);
         relativeLayout=findViewById(R.id.relativeL);
+        valider=findViewById(R.id.valider3);
 
         surfaceHolder = surfaceView.getHolder();
         surfaceView.setZOrderOnTop(true);
@@ -69,13 +72,20 @@ public class AccessNorActivity extends AppCompatActivity {
             relativeLayout.addView(dr);
             return true;
         });
+        valider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
        recupImageN();
+
     }
 
     public void recupImageN() {
         FileInputStream fis = null;
         try {
-            fis = openFileInput("image1.data");
+            fis = openFileInput("image0.data");
             Bitmap bm = BitmapFactory.decodeStream(fis);
             this.nord.setImageBitmap(bm);
         } catch (FileNotFoundException e) {

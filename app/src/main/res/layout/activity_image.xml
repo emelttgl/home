@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/imageViewOuest"
         android:layout_width="120dp"
         android:layout_height="146dp"
         android:layout_marginStart="8dp"
@@ -36,7 +36,7 @@
         tools:ignore="ImageContrastCheck" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/imageViewEst"
         android:layout_width="120dp"
         android:layout_height="134dp"
         android:layout_marginStart="124dp"
@@ -44,12 +44,12 @@
         android:layout_marginEnd="21dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
+        app:layout_constraintStart_toEndOf="@+id/imageViewOuest"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/imageViewSud"
         android:layout_width="132dp"
         android:layout_height="138dp"
         android:layout_marginStart="128dp"
@@ -57,13 +57,13 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
-        app:layout_constraintEnd_toStartOf="@+id/imageView7"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewEst"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewNord"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewNord"
         android:layout_width="132dp"
         android:layout_height="138dp"
         android:layout_marginStart="32dp"
@@ -102,7 +102,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="232dp"
         android:text="EST"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imageViewNord"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -117,7 +117,7 @@
         app:layout_constraintBottom_toTopOf="@+id/buttonVal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewSud" />
 
     <Button
         android:id="@+id/buttonVal"
@@ -137,10 +137,10 @@
         android:layout_height="113dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="13dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView8"
-        app:layout_constraintEnd_toStartOf="@+id/imageView7"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewSud"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewEst"
+        app:layout_constraintStart_toEndOf="@+id/imageViewOuest"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewNord"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <ImageButton
@@ -155,13 +155,13 @@
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <ImageButton
-        android:id="@+id/imageButtonOuest"
+        android:id="@+id/imageButtonEst"
         android:layout_width="66dp"
         android:layout_height="37dp"
         android:onClick="prendrePhotoE"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewEst"
         app:layout_constraintEnd_toStartOf="@+id/imageButtonOuest2"
-        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintStart_toStartOf="@+id/imageViewEst"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <ImageButton
@@ -169,17 +169,19 @@
         android:layout_width="66dp"
         android:layout_height="37dp"
         android:onClick="prendrePhotoS"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
-        app:layout_constraintStart_toStartOf="@+id/imageView8"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewSud"
+        app:layout_constraintStart_toStartOf="@+id/imageViewSud"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <ImageButton
-        android:id="@+id/imageButtonEst"
+        android:id="@+id/imageButtonOuest"
         android:layout_width="66dp"
         android:layout_height="37dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
         android:onClick="prendrePhotoO"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-        app:layout_constraintStart_toStartOf="@+id/imageView6"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewOuest"
+        app:layout_constraintStart_toStartOf="@+id/imageViewOuest"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <ImageButton
@@ -187,8 +189,8 @@
         android:layout_width="66dp"
         android:layout_height="37dp"
         android:onClick="modifierPhotoN"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewNord"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewNord"
         app:layout_constraintStart_toEndOf="@+id/imageButtonNord"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
@@ -196,9 +198,11 @@
         android:id="@+id/imageButtonEst2"
         android:layout_width="66dp"
         android:layout_height="37dp"
+        android:layout_marginBottom="4dp"
         android:onClick="modifierPhotoO"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-        app:layout_constraintEnd_toEndOf="@+id/imageView6"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewOuest"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewOuest"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/imageButtonEst"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
@@ -207,8 +211,8 @@
         android:layout_width="66dp"
         android:layout_height="37dp"
         android:onClick="modifierPhotoS"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
-        app:layout_constraintEnd_toEndOf="@+id/imageView8"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewSud"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewSud"
         app:layout_constraintStart_toEndOf="@+id/imageButtonSud"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
@@ -217,8 +221,8 @@
         android:layout_width="66dp"
         android:layout_height="37dp"
         android:onClick="modifierPhotoE"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewEst"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewEst"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

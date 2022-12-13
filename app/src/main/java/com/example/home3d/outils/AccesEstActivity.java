@@ -1,12 +1,9 @@
 package com.example.home3d.outils;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -17,24 +14,17 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.home3d.R;
 import com.example.home3d.monde.Acces;
-import com.example.home3d.monde.Batiment;
 import com.example.home3d.monde.Mur;
-import com.example.home3d.monde.Piece;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 public class AccesEstActivity extends AppCompatActivity {
 
@@ -91,7 +81,7 @@ public class AccesEstActivity extends AppCompatActivity {
         
 
         valider.setOnClickListener(v -> {
-
+        finish();
 
 
         });
@@ -102,7 +92,7 @@ public class AccesEstActivity extends AppCompatActivity {
     public void recupImageE() {
         FileInputStream fis = null;
         try {
-            fis = openFileInput("image2.data");
+            fis = openFileInput("image1.data");
             Bitmap bm = BitmapFactory.decodeStream(fis);
             this.est.setImageBitmap(bm);
         } catch (FileNotFoundException e) {
