@@ -92,7 +92,7 @@ public class AccesEstActivity extends AppCompatActivity {
     public void recupImageE() {
         FileInputStream fis = null;
         try {
-            fis = openFileInput("image1.data");
+            fis = openFileInput("image2.data");
             Bitmap bm = BitmapFactory.decodeStream(fis);
             this.est.setImageBitmap(bm);
         } catch (FileNotFoundException e) {

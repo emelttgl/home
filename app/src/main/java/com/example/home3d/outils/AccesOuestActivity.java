@@ -122,7 +122,7 @@ public class AccesOuestActivity extends AppCompatActivity {
     public void recupImageO() {
         FileInputStream fis = null;
         try {
-            fis = openFileInput("image2.data");
+            fis = openFileInput("image1.data");
             Bitmap bm = BitmapFactory.decodeStream(fis);
             this.ouest.setImageBitmap(bm);
         } catch (FileNotFoundException e) {
